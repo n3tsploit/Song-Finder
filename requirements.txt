@@ -35,5 +35,4 @@ tzlocal==4.2
 urllib3==1.26.11
 xlrd==1.2.0
 XlsxWriter==3.0.3
-
 redis~=4.3.4
