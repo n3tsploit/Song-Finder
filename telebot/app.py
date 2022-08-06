@@ -10,11 +10,11 @@ import os
 from pathlib import Path
 import threading, redis
 
-load_dotenv(Path("./telebot/.env"))
-TOKEN = os.getenv('TOKEN')
+# load_dotenv(Path("./telebot/.env"))
+# TOKEN = os.getenv('TOKEN')
 
 # To be used during deployemnt
-# TOKEN = os.environ.get('TOKEN')
+TOKEN = os.environ.get('TOKEN')
 
 PORT = int(os.environ.get('PORT', 88))
 print('Bot is starting...')
@@ -105,8 +105,7 @@ def check_command(update, context):
 def area(update, context):
     global county_value
     global regions
-    pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
-    conn = redis.Redis(connection_pool=pool)
+    conn = redis.from_url(os.environ.get("REDIS_URL"))
     regions_json = conn.get('regions')
     regions = json.loads(regions_json)
     query = update.callback_query
@@ -151,8 +150,7 @@ def stop(update, context):
 
 # This function is used in the python telegram bot to handle conversions
 def pdf_command(update, context):
-    pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
-    conn = redis.Redis(connection_pool=pool)
+    conn = redis.from_url(os.environ.get("REDIS_URL"))
     pdf_name = conn.get('pdf_name')
     update.message.reply_text('--fetching--')
     pdf_file = open(f'telebot/content/{pdf_name}', 'rb')
@@ -190,12 +188,12 @@ def main():
 
     disp.add_handler(MessageHandler(Filters.text, unknown))
 
-    updater.start_polling()
+    # updater.start_polling()
 
     # To be used during deployemnt
-    # updater.start_webhook(listen="0.0.0.0",
-    #                       port=int(PORT),
-    #                       url_path=TOKEN,
-    #                       webhook_url='https://powerinterruption.herokuapp.com/' + TOKEN)
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN,
+                          webhook_url='https://powerinterruption.herokuapp.com/' + TOKEN)
 
     updater.idle()

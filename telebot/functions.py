@@ -53,8 +53,7 @@ def parse_content():
             os.remove(list(p.glob('*.pdf'))[0])
         with open('telebot/content/' + pdf_name, 'wb') as r:
             r.write(res.content)
-        pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
-        conn = redis.Redis(connection_pool=pool)
+        conn = redis.from_url(os.environ.get("REDIS_URL"))
         conn.set('pdf_name',pdf_name)
         return pdf_name
 
@@ -123,8 +122,7 @@ def save_data_to_shelve():
             if regions[region_name][county_name][area_name]['when'] == '':
                 regions[region_name][county_name][area_name]['when'] = ''.join(when).lower()
             regions[region_name][county_name][area_name]['where'] += line.strip().lower()
-    pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
-    conn = redis.Redis(connection_pool=pool)
+    conn = redis.from_url(os.environ.get("REDIS_URL"))
     regions_json = json.dumps(regions)
     conn.set('regions', regions_json)
 
