@@ -9,4 +9,4 @@ music = AudioFileClip("./songs/yt1s.com - Burna Boy  For My Hand feat Ed Sheeran
 music = music.subclip(0, 10)
 
 
-music.write_audiofile("testing.mp3",fps=44100,nbytes=2)
+music.write_audiofile("teing",fps=44100,nbytes=2,codec="pcm_s16le")
