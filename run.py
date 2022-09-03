@@ -7,7 +7,7 @@ url = "https://shazam.p.rapidapi.com/songs/v2/detect"
 
 querystring = {"timezone": "America/Chicago", "locale": "en-US"}
 
-with open('./testing.mp3', 'rb') as f:
+with open('./testing.raw', 'rb') as f:
     content = base64.b64encode(f.read())
 payload = content
 headers = {
