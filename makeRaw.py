@@ -1,45 +1,31 @@
-import requests
-import pyaudio
+from pydub import AudioSegment
+from pydub.utils import make_chunks
 from base64 import b64encode
+import requests
+import pprint
 
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 44100
-CHUNK = 1024
-RECORD_SECONDS = 4
-WAVE_OUTPUT_FILENAME = "file.wav"
+myaudio = AudioSegment.from_file("testing.mp3" , "mp3")
+chunk_length_ms = 4000 # pydub calculates in millisec
+chunks = make_chunks(myaudio, chunk_length_ms) #Make chunks of one sec
 
-audio = pyaudio.PyAudio()
-
-# start Recording
-stream = audio.open(format=FORMAT, channels=CHANNELS,
-                    rate=RATE, input=True,
-                    frames_per_buffer=CHUNK)
-print("recording...")
 frames = []
+#Convert chunks to raw audio data which you can then feed to HTTP stream
+for i, chunk in enumerate(chunks):
+    raw_audio_data = chunk.raw_data
+    payload = b64encode(raw_audio_data).decode('utf_8')
 
-for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    data = stream.read(CHUNK)
-    frames.append(data)
-print("finished recording")
+    url = "https://shazam.p.rapidapi.com/songs/v2/detect"
 
-# stop Recording
-stream.stop_stream()
-stream.close()
-audio.terminate()
+    querystring = {"timezone": "America/Chicago", "locale": "en-US"}
+    headers = {
+        "content-type": "text/plain",
+        "X-RapidAPI-Key": "3c1dacced4msh6e95e085f64394ap1ae14fjsn691e92cf4ba5",
+        "X-RapidAPI-Host": "shazam.p.rapidapi.com"
+    }
 
-frames_data = b''.join(frames)
-payload = b64encode(frames_data).decode('utf_8')
+    response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
 
-url = "https://shazam.p.rapidapi.com/songs/detect"
+    pprint.pprint(response.text)
+    frames.append(raw_audio_data)
 
-headers = {
-    'x-rapidapi-host': "shazam.p.rapidapi.com",
-    'x-rapidapi-key': "MY-KEY",
-    'content-type': "text/plain",
-    'accept': "text/plain"
-}
-
-response = requests.request("POST", url, data=payload, headers=headers)
-
-print(response.text)
+frames_data=b''.join(frames)
