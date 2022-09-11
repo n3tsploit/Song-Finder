@@ -4,11 +4,11 @@ import pprint
 import requests
 
 #importing file from location by giving its path
-sound = AudioSegment.from_mp3("./songs/yt1s.com - Burna Boy  For My Hand feat Ed Sheeran Official Music Video.mp3")
+sound = AudioSegment.from_mp3("./dd.mp3")
 
 #Selecting Portion we want to cut
 StrtMin = 0
-StrtSec = 10
+StrtSec = 0
 
 EndMin = 0
 EndSec = 15

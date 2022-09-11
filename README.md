@@ -1,1 +1,2 @@
-to be written
+ -[ ] Find a wa to change audio to mono
+-[ ] Find a way to change audio to raw
