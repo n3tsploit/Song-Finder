@@ -1,2 +1,3 @@
- -[ ] Find a wa to change audio to mono
--[ ] Find a way to change audio to raw
+ - [x] Find a wa to change audio to mono
+ - [x] Find a way to change audio to raw
+ - [ ] Change from video to audio
