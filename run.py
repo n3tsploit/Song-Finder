@@ -6,15 +6,15 @@ from pydub import AudioSegment
 # Crop the audio to ony 5 seconds
 sound = AudioSegment.from_mp3("./songs")  # Importing audio file
 
-StrtMin = 0  # start minitute from where you want to crop the audio
-StrtSec = 0  # start second from where you want to crop the audio
-EndMin = 0  # End minitute of where you want to crop the audio
-EndSec = 5  # End second of where you want to crop the audio
+start_min = 0  # start minitute from where you want to crop the audio
+start_sec = 0  # start second from where you want to crop the audio
+end_min = 0  # End minitute of where you want to crop the audio
+end_sec = 5  # End second of where you want to crop the audio
 
-StrtTime = StrtMin * 60 * 1000 + StrtSec * 1000  # Convert to milliseconds
-EndTime = StrtMin * 60 * 1000 + EndSec * 1000  # Convert to milliseconds
+start_time = start_min * 60 * 1000 + start_sec * 1000  # Convert to milliseconds
+end_time = start_min * 60 * 1000 + end_sec * 1000  # Convert to milliseconds
 
-extract = sound[StrtTime:EndTime]  # Croping the audio
+extract = sound[start_time:end_time]  # Croping the audio
 extract = extract.set_channels(1)  # make the audio mono
 
 extract.export("./songs/testing.wav", format="wav")  # saving it as a .wav file
