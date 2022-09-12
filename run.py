@@ -2,9 +2,17 @@ import base64
 import pprint
 import requests
 from pydub import AudioSegment
+from moviepy.editor import *
+
+# extracting the audio from the video
+video_clip = VideoFileClip('./songs/yt1s.com - Bien x Aaron Rimbui  Mbwe Mbwe Official Music Video_v240P.mp4')
+audio_clip = video_clip.audio
+audio_clip.write_audiofile('./songs/testing.mp3')
+audio_clip.close()
+video_clip.close()
 
 # Crop the audio to ony 5 seconds
-sound = AudioSegment.from_mp3("./songs")  # Importing audio file
+sound = AudioSegment.from_mp3("./songs/testing.mp3")  # Importing audio file
 
 start_min = 0  # start minitute from where you want to crop the audio
 start_sec = 0  # start second from where you want to crop the audio
