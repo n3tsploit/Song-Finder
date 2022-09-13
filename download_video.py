@@ -1,12 +1,18 @@
 import tweepy
 from tweepy import OAuthHandler
+from dotenv import load_dotenv
+import os
 
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_secret = ''
+load_dotenv('./.env')
+consumer_key = os.getenv('CONSUMER_KEY')
+consumer_secret = os.getenv('CONSUMER_SECRET')
+access_token = os.getenv('ACCESS_KEY')
+access_secret = os.getenv('ACCESS_SECRET')
 
-auth = OAuthHandler(consumer_key,consumer_secret)
-auth.set_access_token(access_token,access_secret)
+client = tweepy.Client(consumer_key= consumer_key,consumer_secret= consumer_secret,access_token= access_token,access_token_secret= access_secret)
 
-api = tweepy.API(auth)
+tweets = client.get_home_timeline(max_results=2)
+
+for tweet in tweets.data:
+    print(tweet.text)
+
