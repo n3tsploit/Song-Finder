@@ -11,11 +11,19 @@ access_secret = os.getenv('ACCESS_SECRET')
 
 client = tweepy.Client(consumer_key= consumer_key,consumer_secret= consumer_secret,access_token= access_token,access_token_secret= access_secret)
 
-tweets = client.get_home_timeline()
-json_response = tweets.json()
-print(json_response)
+query = 'covid -is:retweet has:media'
 
-for tweet in tweets:
-    print('-'*100)
+tweets = client.get_home_timeline(tweet_fields=['context_annotations', 'created_at'],
+                                     media_fields=['url'], expansions='attachments.media_keys',
+                                     max_results=10)
+
+# Get list of media from the includes object
+media = {m["media_key"]: m for m in tweets.includes['media']}
+
+for tweet in tweets.data:
+    media_keys = tweet['attachments']['media_keys']
     print(tweet)
+    if media[media_keys[0]].preview_image_url:
+        print(media[media_keys[0]].preview_image_url)
+
 
