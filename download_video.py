@@ -1,3 +1,6 @@
+import pprint
+import time
+
 import tweepy
 import json
 from dotenv import load_dotenv
@@ -8,21 +11,30 @@ consumer_key = os.getenv('CONSUMER_KEY')
 consumer_secret = os.getenv('CONSUMER_SECRET')
 access_token = os.getenv('ACCESS_KEY')
 access_secret = os.getenv('ACCESS_SECRET')
+bearer_token = os.getenv('BEARER_TOKEN')
+
+client = tweepy.Client(bearer_token=bearer_token)
+
+query = 'usiu has:media'
 
 
-client = tweepy.Client(consumer_key= consumer_key,consumer_secret= consumer_secret,access_token= access_token,access_token_secret= access_secret)
+response = client.search_recent_tweets(query=query,tweet_fields=['created_at','lang'], expansions=['attachments.media_keys','author_id'], user_fields=['profile_image_url'])
+users = {u['id']:u for u in response.includes['users']}
+medias = {m['media_key']:m for m in response.includes['media']}
 
-tweets = client.get_home_timeline(media_fields=['preview_image_url'], expansions='attachments.media_keys',
-                                     max_results=10)
+# pprint.pprint(medias)
+# pprint.pprint(response)
 
-tweets =list(tweets)
+# for tweet in response.data:
+#     if users[tweet.author_id]:
+#         user = users[tweet.author_id]
+#         print(tweet.id)
+#         print(user.username)
 
-print(tweets)
-print('-'*10)
-# print(tweets[1]['media'][0].media_key)
-
-for i in range(len(tweets[0])):
-    print(tweets[0][i].id)
-
-
-
+for tweet in response.data:
+    try:
+        if medias[tweet.attachments['media_keys'][0]]:
+            mediam = medias[tweet.attachments['media_keys'][0]]
+            print(mediam.type)
+    except:
+        pass
