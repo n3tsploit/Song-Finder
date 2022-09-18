@@ -25,16 +25,16 @@ medias = {m['media_key']:m for m in response.includes['media']}
 # pprint.pprint(medias)
 # pprint.pprint(response)
 
-# for tweet in response.data:
-#     if users[tweet.author_id]:
-#         user = users[tweet.author_id]
-#         print(tweet.id)
-#         print(user.username)
-
 for tweet in response.data:
-    try:
-        if medias[tweet.attachments['media_keys'][0]]:
-            mediam = medias[tweet.attachments['media_keys'][0]]
-            print(mediam.type)
-    except:
-        pass
+    if users[tweet.author_id]:
+        user = users[tweet.author_id]
+        print(tweet.id)
+        print(user.username)
+
+# for tweet in response.data:
+#     try:
+#         if medias[tweet.attachments['media_keys'][0]]:
+#             mediam = medias[tweet.attachments['media_keys'][0]]
+#             print(mediam.media_key)
+#     except:
+#         pass
