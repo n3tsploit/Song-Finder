@@ -18,18 +18,17 @@ client = tweepy.Client(bearer_token=bearer_token)
 query = 'usiu has:media'
 
 
-response = client.search_recent_tweets(query=query,tweet_fields=['created_at','lang'], expansions=['attachments.media_keys','author_id'], user_fields=['profile_image_url'])
-users = {u['id']:u for u in response.includes['users']}
-medias = {m['media_key']:m for m in response.includes['media']}
+response = client.get_tweet(id='1571483067461603330', expansions='attachments.media_keys', media_fields='duration_ms,height,url')
+# users = {u['id']:u for u in response.includes['users']}
+# medias = {m['media_key']:m for m in response.includes['media']}
 
 # pprint.pprint(medias)
-# pprint.pprint(response)
+pprint.pprint(response)
 
-for tweet in response.data:
-    if users[tweet.author_id]:
-        user = users[tweet.author_id]
-        print(tweet.id)
-        print(user.username)
+# for tweet in response.data:
+#     if users[tweet.author_id]:
+#         user = users[tweet.author_id]
+#         print(tweet.entities)
 
 # for tweet in response.data:
 #     try:
