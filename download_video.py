@@ -18,7 +18,7 @@ client = tweepy.Client(bearer_token=bearer_token)
 query = 'usiu has:media'
 
 
-response = client.get_tweet(id='1571483067461603330', expansions='attachments.media_keys', media_fields='duration_ms,height,url')
+response = client.get_tweet(id='1571483067461603330', expansions='attachments.media_keys,author_id', media_fields='preview_image_url,alt_text,url,variants',tweet_fields='attachments,context_annotations,id,entities',poll_fields='id',user_fields='entities,url')
 # users = {u['id']:u for u in response.includes['users']}
 # medias = {m['media_key']:m for m in response.includes['media']}
 
