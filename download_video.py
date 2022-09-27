@@ -1,6 +1,6 @@
 import pprint
 import time
-
+import requests
 import tweepy
 import json
 from dotenv import load_dotenv
@@ -13,9 +13,13 @@ access_token = os.getenv('ACCESS_KEY')
 access_secret = os.getenv('ACCESS_SECRET')
 bearer_token = os.getenv('BEARER_TOKEN')
 
-client = tweepy.Client(bearer_token=bearer_token)
+client = tweepy.Client(
+    consumer_key=consumer_key, consumer_secret=consumer_secret,
+    access_token=access_token, access_token_secret=access_secret, bearer_token=bearer_token
+)
 
 query = 'usiu has:media'
+
 
 
 response = client.get_tweet(id='1571483067461603330', expansions='attachments.media_keys,author_id', media_fields='preview_image_url,alt_text,url,variants',tweet_fields='attachments,context_annotations,id,entities',poll_fields='id',user_fields='entities,url')
