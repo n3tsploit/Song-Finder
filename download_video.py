@@ -5,7 +5,7 @@ import tweepy
 import json
 from dotenv import load_dotenv
 import os
-# import wget
+import wget
 
 load_dotenv('./.env')
 consumer_key = os.getenv('CONSUMER_KEY')
@@ -17,5 +17,6 @@ bearer_token = os.getenv('BEARER_TOKEN')
 
 response = requests.get(url='https://api.twitter.com/2/tweets?ids=1571483067461603330&expansions=attachments.media_keys&media.fields=type,variants', headers={'Authorization': f'Bearer {bearer_token}'})
 data = response.json()
+url = data['includes']['media'][0]['variants'][0]['url']
 
-print(data['includes']['media'][0]['variants'][0]['url'])
+file = wget.download(url)
