@@ -37,7 +37,7 @@ url = "https://shazam.p.rapidapi.com/songs/v2/detect"
 querystring = {"timezone": "America/Chicago", "locale": "en-US"}
 headers = {
     "content-type": "text/plain",
-    "X-RapidAPI-Key": "3c1dacced4msh6e95e085f64394ap1ae14fjsn691e92cf4ba5",
+    "X-RapidAPI-Key": "key",
     "X-RapidAPI-Host": "shazam.p.rapidapi.com"
 }
 
